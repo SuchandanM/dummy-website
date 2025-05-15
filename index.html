@@ -11,7 +11,119 @@
       'ProductName':'My Product 1'
       }
       </script>
-      <script src="https://assets.adobedtm.com/e72b4113c11a/4d4352c13ef3/launch-c9aa1160b1b8-development.min.js" async></script>   
+
+<!-- Cookie Consent Banner -->
+<div id="cookie-overlay">
+  <div id="cookie-banner">
+    <p>This website uses cookies to enhance your experience. Please accept or decline the use of tracking cookies.</p>
+    <div class="button-group">
+      <button id="accept-cookies">Accept</button>
+      <button id="decline-cookies">Decline</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  #cookie-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.65);
+    z-index: 9999;
+    display: none;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #cookie-banner {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  }
+
+  #cookie-banner p {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+
+  .button-group button {
+    margin: 0 10px;
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    transition: background 0.2s ease;
+  }
+
+  #accept-cookies {
+    background-color: #28a745;
+    color: white;
+  }
+
+  #accept-cookies:hover {
+    background-color: #218838;
+  }
+
+  #decline-cookies {
+    background-color: #dc3545;
+    color: white;
+  }
+
+  #decline-cookies:hover {
+    background-color: #c82333;
+  }
+</style>
+
+<script>
+(function () {
+  const overlay = document.getElementById('cookie-overlay');
+  const acceptBtn = document.getElementById('accept-cookies');
+  const declineBtn = document.getElementById('decline-cookies');
+
+  const CONSENT_KEY = 'cookie_consent';
+
+  function loadAdobeLaunch() {
+    const script = document.createElement('script');
+    script.src = 'https://assets.adobedtm.com/e72b4113c11a/4d4352c13ef3/launch-c9aa1160b1b8-development.min.js'; // Replace with your script
+    script.async = true;
+    document.head.appendChild(script);
+  }
+
+  function checkConsent() {
+    const consent = localStorage.getItem(CONSENT_KEY);
+    if (consent === 'accepted') {
+      loadAdobeLaunch();
+    } else if (!consent) {
+      overlay.style.display = 'flex'; // Show banner
+    }
+  }
+
+  acceptBtn.addEventListener('click', () => {
+    localStorage.setItem(CONSENT_KEY, 'accepted');
+    overlay.style.display = 'none';
+    loadAdobeLaunch();
+    location.reload(); // Reload the page
+  });
+
+  declineBtn.addEventListener('click', () => {
+    localStorage.setItem(CONSENT_KEY, 'declined');
+    overlay.style.display = 'none';
+    location.reload(); // Reload the page
+  });
+
+  checkConsent();
+})();
+</script>
+         
+         
+  
       <!-- basic -->   
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
