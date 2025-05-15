@@ -8,7 +8,8 @@
       'Product_type':'Cycle',
       'Customer_type':'Low Value Customer',
       'ProductEvent':'cart addition',
-      'ProductName':'My Product 1'
+      'ProductName':'My Product 1',
+      'CookieConsent': 'accepted'
       }
       </script>
 
@@ -106,24 +107,39 @@
   }
 
   acceptBtn.addEventListener('click', () => {
-    localStorage.setItem(CONSENT_KEY, 'accepted');
-    overlay.style.display = 'none';
-    loadAdobeLaunch();
-    location.reload(); // Reload the page
-  });
+  localStorage.setItem(CONSENT_KEY, 'accepted');
 
-  declineBtn.addEventListener('click', () => {
-    localStorage.setItem(CONSENT_KEY, 'declined');
-    overlay.style.display = 'none';
-    location.reload(); // Reload the page
-  });
+  // Update digitalData and fire event
+  window.digitalData = window.digitalData || {};
+  window.digitalData.cookieConsent = 'accepted';
 
+  // Optional: custom event to trigger Adobe Launch rules
+  var consentEvent = new CustomEvent('cookieConsentChanged');
+  window.dispatchEvent(consentEvent);
+
+  overlay.style.display = 'none';
+  loadAdobeLaunch();
+  location.reload();
+});
+
+declineBtn.addEventListener('click', () => {
+  localStorage.setItem(CONSENT_KEY, 'declined');
+
+  // Update digitalData and fire event
+  window.digitalData = window.digitalData || {};
+  window.digitalData.cookieConsent = 'declined';
+
+  var consentEvent = new CustomEvent('cookieConsentChanged');
+  window.dispatchEvent(consentEvent);
+
+  overlay.style.display = 'none';
+  location.reload();
+});
   checkConsent();
 })();
 </script>
-         
-         
-  
+       
+
       <!-- basic -->   
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
