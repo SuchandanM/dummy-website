@@ -422,12 +422,57 @@
          })
       </script>
       
-   <!-- Your website content here -->
-
-<!-- Cookie Consent Banner -->
-<div id="cookie-banner" style="position: fixed; bottom: 0; background: #333; color: #fff; padding: 20px; width: 100%; z-index: 1000;">
-  This site uses cookies. <button id="accept-cookies">Accept</button>
+<!-- Cookie Banner -->
+<div id="cookie-banner" style="display: none; position: fixed; bottom: 0; left: 0; width: 100%; background: #f8f9fa; padding: 15px; box-shadow: 0 -2px 5px rgba(0,0,0,0.2); z-index: 9999;">
+  <div style="max-width: 900px; margin: auto; display: flex; justify-content: space-between; align-items: center;">
+    <span>This website uses cookies to enhance the user experience.</span>
+    <div>
+      <button id="accept-cookies" style="margin-right: 10px;">Accept</button>
+      <button id="decline-cookies">Decline</button>
+    </div>
+  </div>
 </div>
+
+<script>
+(function () {
+  const banner = document.getElementById('cookie-banner');
+  const acceptBtn = document.getElementById('accept-cookies');
+  const declineBtn = document.getElementById('decline-cookies');
+
+  const CONSENT_KEY = 'cookie_consent';
+
+  // Load Adobe Launch script if consent is given
+  function loadAdobeLaunch() {
+    const script = document.createElement('script');
+    script.src = 'https://assets.adobedtm.com/YOUR_ADOBE_LAUNCH_SCRIPT.js'; // Replace with your actual Adobe Launch URL
+    script.async = true;
+    document.head.appendChild(script);
+  }
+
+  function checkConsent() {
+    const consent = localStorage.getItem(CONSENT_KEY);
+    if (consent === 'accepted') {
+      loadAdobeLaunch();
+    } else if (!consent) {
+      banner.style.display = 'block';
+    }
+  }
+
+  acceptBtn.addEventListener('click', () => {
+    localStorage.setItem(CONSENT_KEY, 'accepted');
+    banner.style.display = 'none';
+    loadAdobeLaunch();
+  });
+
+  declineBtn.addEventListener('click', () => {
+    localStorage.setItem(CONSENT_KEY, 'declined');
+    banner.style.display = 'none';
+  });
+
+  // Run on load
+  checkConsent();
+})();
+</script>
 
 </body>
 </html>
