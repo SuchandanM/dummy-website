@@ -139,25 +139,24 @@ declineBtn.addEventListener('click', () => {
 })();
 </script>
 
-<script>
-   function setCustomCookie(cookieName, length = 16) {
-    // Generate a random alphanumeric string
-    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    let randomValue = "";
-    for (let i = 0; i < length; i++) {
-        randomValue += chars.charAt(Math.floor(Math.random() * chars.length));
+   <script>
+      function setCustomCookie(cookieName, length = 16) {
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        let randomValue = "";
+        for (let i = 0; i < length; i++) {
+            randomValue += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+
+        const expiryDate = new Date();
+        expiryDate.setFullYear(expiryDate.getFullYear() + 2);
+
+        document.cookie = `${cookieName}=${randomValue}; expires=${expiryDate.toUTCString()}; path=/`;
     }
 
-    // Set expiration date (2 years from today)
-    const expiryDate = new Date();
-    expiryDate.setFullYear(expiryDate.getFullYear() + 2);
-
-    // Set the cookie
-    document.cookie = `${cookieName}=${randomValue}; expires=${expiryDate.toUTCString()}; path=/`;
-
-    return `Cookie "${cookieName}" set with value: ${randomValue}`;
-}
-</script>
+    window.onload = function() {
+        setCustomCookie("sessionID");
+    };
+    </script>
 
        
 
